@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Container, Grid } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import Banner from "./components/Banner/Banner";
@@ -10,7 +10,7 @@ import Header from "./components/Header";
 import ImageCard from "./components/ImageCard";
 import ImagePreviewModal from "./components/ImagePreviewModal";
 
-export default function HomePage() {
+const Home = () => {
   const [images, setImages] = useState<string[]>([]);
   const [deleteIndex, setDeleteIndex] = useState<number | null>(null);
   const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(null);
@@ -54,9 +54,32 @@ export default function HomePage() {
             </Box>
           </Box>
         ) : (
-          <Grid container spacing={2}>
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: {
+                xs: "1fr",
+                sm: "repeat(2, 1fr)",
+                md: "repeat(3, 1fr)",
+                lg: "repeat(4, 1fr)",
+              },
+              gap: 3,
+              mt: 4,
+            }}
+          >
             {images.map((url, index) => (
-              <Grid item key={index}>
+              <Box
+                key={index}
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  transition: "transform 0.2s ease-in-out",
+                  "&:hover": {
+                    transform: "scale(1.02)",
+                  },
+                }}
+              >
                 <ImageCard
                   imageUrl={url}
                   onClick={() => {
@@ -65,9 +88,9 @@ export default function HomePage() {
                   }}
                   onDelete={() => handleDelete(index)}
                 />
-              </Grid>
+              </Box>
             ))}
-          </Grid>
+          </Box>
         )}
       </Container>
 
@@ -101,4 +124,6 @@ export default function HomePage() {
       <ToastContainer position="top-center" />
     </>
   );
-}
+};
+
+export default Home;
